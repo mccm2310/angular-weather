@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForecastCardComponent } from './forecast-card.component';
+import { FormatData } from '../../models/data-map.model';
 
 describe('ForecastCardComponent', () => {
   let component: ForecastCardComponent;
@@ -8,7 +9,7 @@ describe('ForecastCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForecastCardComponent ]
+      declarations: [ ForecastCardComponent, FormatData ]
     })
     .compileComponents();
   }));

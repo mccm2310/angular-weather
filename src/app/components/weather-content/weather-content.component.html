@@ -18,10 +18,10 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-						<input type="text" class="form-control mr-3 w-75" [style.display]="'inline-block'" id="nombre" placeholder="El tiempo en..." [formControl]="fg.controls['nombre']">            
-						<button class="btn btn-search" (click)="getWeather(fg.controls['nombre'].value)"><i class="material-icons">search</i></button>
-						<div *ngIf="fg.controls['nombre'].hasError('invalidName')">Nombre Inv&aacute;lido</div>
-						<div *ngIf="fg.controls['nombre'].hasError('minLongNumber')">Nombre debe tener al menos {{minLongitud}} de largo.</div>
+							<input type="text" class="input-search mr-3 w-75" [style.display]="'inline-block'" id="nombre" placeholder="El tiempo en..." [formControl]="fg.controls['nombre']">            
+							<button class="btn btn-search" (click)="getWeather(fg.controls['nombre'].value)"><i class="material-icons">search</i></button>
+							<div *ngIf="fg.controls['nombre'].hasError('invalidName')">Nombre Inv&aacute;lido</div>
+							<div *ngIf="fg.controls['nombre'].hasError('minLongNumber')">Nombre debe tener al menos {{minLongitud}} de largo.</div>
 						</div>
 					</div>
 				</div>

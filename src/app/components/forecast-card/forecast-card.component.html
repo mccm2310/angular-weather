@@ -1,14 +1,11 @@
     
-<div class="card">       
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-img">            
-                <img src="{{ forecastday.day.condition.icon }}" alt="">
-            </div>
-        </div>
-        <div class="col-md-12">              
-            <span>{{ forecastday.day.maxtemp_c }}</span>
-            <small>{{ forecastday.day.mintemp_c }}</small>
-        </div>
-    </div> 
+<div class="forecastday-card">       
+    <small>{{getDayString(forecastday.date)}}</small>   
+    <div>            
+        <img src="{{ forecastday.day.condition.icon }}" alt="">
+    </div>
+    <div>              
+        <span [innerHtml]=" forecastday.day.maxtemp_c"></span>
+        <small class="ml-1" [innerHtml]=" forecastday.day.mintemp_c"></small>
+    </div>
 </div>

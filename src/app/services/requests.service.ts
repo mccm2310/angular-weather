@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -18,6 +18,12 @@ export class RequestsService {
 
     getWeatherFromParam = function(param) {
        return this.http
-          .get('http://api.apixu.com/v1/forecast.json?key=8c3c7daa94234a59bd7140955182012&q='+ param +'&days=7');
+          .get('http://api.apixu.com/v1/forecast.json?key=8c3c7daa94234a59bd7140955182012&q='+ param +'&days=7')
+          .pipe(
+            catchError(error => {
+              console.error("Error Location");
+              return throwError("Error thrown from catchError");
+            })
+          );
     }
 }

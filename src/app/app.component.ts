@@ -15,15 +15,4 @@ export class AppComponent {
   constructor(private requestsService : RequestsService) {    
   }
 
-  getQuickWeather(location){
-    this.requestsService.getWeatherFromParam(location).subscribe(
-      function(response) { 
-        console.log(response)
-      },
-      function(error) { console.log(error)},
-      function() { console.log("the weather location is completed")}
-    );
-    return false;
-  }
 }
-

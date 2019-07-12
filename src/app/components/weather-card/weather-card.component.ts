@@ -9,18 +9,16 @@ import { RequestsService } from '../../services/requests.service';
 
 export class WeatherCardComponent implements OnInit {
   @Input() locationSelected;
-  @Input() hasLocation;
   scaleSelected: string = 'C';
+  
 	@HostBinding('attr.class') cssClass = 'col-md-12';
 
-  constructor(private requestsService : RequestsService) {    
-  }
+  constructor(private requestsService : RequestsService) { }
 
-  ngOnInit() {
-           
-  }
+  ngOnInit() { }
 
   changeScale(scale){
     this.scaleSelected = scale;
   }
+
 }

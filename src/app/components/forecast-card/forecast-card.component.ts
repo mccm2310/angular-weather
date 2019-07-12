@@ -7,11 +7,26 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 
 export class ForecastCardComponent implements OnInit {
-  @Input() forecastday;
+  @Input() forecastday;  
+  daysString: any;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
+    this.daysString = new Map(); 
+    this.daysString.set(0, 'lun.');
+    this.daysString.set(1, 'mar.');
+    this.daysString.set(2, 'mie.');
+    this.daysString.set(3, 'jue.');
+    this.daysString.set(4, 'vie.');
+    this.daysString.set(5, 'sab.');
+    this.daysString.set(6, 'dom.');
+  }
+ 
+
+  getDayString(data) {
+    var date = new Date(data);   
+    return this.daysString.get(date.getDay());
   }
 
 }

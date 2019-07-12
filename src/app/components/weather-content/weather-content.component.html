@@ -1,14 +1,25 @@
-<div class="container content">
+
+<div class="page-header">
+	<div class="container">
+		<div class="navLinks">
+		<a (click)="getWeather('Mendoza')">Mendoza - Argentina</a> /
+		<a (click)="getWeather('Buenos Aires')">Buenos Aires - Argentina</a> /
+		<a (click)="getWeather('Bogota')">Bog&oacute;ta - Colombia</a> /
+		<a (click)="getWeather('Lima')">Lima - Per&uacute;</a>
+		</div>
+	</div>
+</div>
+<div class="content">
 	<hr class="mt-3">
-	<div class="row mb-3">
+	<div class="row mb-3 ml-1">
 		<div class="col-md-12">
-			<form [formGroup]="fg">
+			<form [formGroup]="fg" autocomplete="off">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 						<input type="text" class="form-control mr-3 w-75" [style.display]="'inline-block'" id="nombre" placeholder="El tiempo en..." [formControl]="fg.controls['nombre']">            
-						<i class="material-icons">search</i>
-						<div *ngIf="fg.controls['nombre'].hasError('invalidNombre')">Nombre Inv&aacute;lido</div>
+						<button class="btn btn-search" (click)="getWeather(fg.controls['nombre'].value)"><i class="material-icons">search</i></button>
+						<div *ngIf="fg.controls['nombre'].hasError('invalidName')">Nombre Inv&aacute;lido</div>
 						<div *ngIf="fg.controls['nombre'].hasError('minLongNumber')">Nombre debe tener al menos {{minLongitud}} de largo.</div>
 						</div>
 					</div>
@@ -17,9 +28,16 @@
 		</div>
 	</div>
 	<div class="row row-flex mb-5">
+		<div *ngIf="loading" class="loader">
+				<div class="spinner-border text-info" role="status"></div>            
+				<span>Loading...</span>
+		</div>
+		<div *ngIf="!hasLocation && !loading" class="weather-error">
+			<p>Oh no! Ha ocurrido un error.</p>
+		</div>
 		<app-weather-card
-			[locationSelected]=locationSelected
-			[hasLocation]=hasLocation>
+			*ngIf="hasLocation && !loading"
+			[locationSelected]=locationSelected >
 		</app-weather-card>
 	</div>
 </div>

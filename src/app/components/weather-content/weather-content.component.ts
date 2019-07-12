@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { RequestsService } from '../../services/requests.service';
 import { fromEvent } from 'rxjs';
@@ -14,13 +14,12 @@ export class WeatherContentComponent implements OnInit {
   minLongitud = 3;
   locationSelected: {};
   hasLocation: boolean;
-  //searchResults: string[];
+  loading: boolean = true;
   
     constructor(fb: FormBuilder, private requestsService : RequestsService) { 
-      //this.onItemAdded = new EventEmitter();
       this.fg = fb.group({
-        nombre: ['', Validators.compose([
-          Validators.required,
+        nombre: ['', Validators.compose([          
+          this.nombreValidator,
           this.nombreValidatorParametrizable(this.minLongitud)
         ])]
       });
@@ -36,10 +35,12 @@ export class WeatherContentComponent implements OnInit {
           filter(text => text.length > 2),
           debounceTime(300),
           distinctUntilChanged(),
-          switchMap((text: string) => this.requestsService.getWeatherFromParam(text))        
+          switchMap((text: string) => this.requestsService.getWeatherFromParam(text)) 
         )
-        .subscribe(HttpResponse => 
-              this.locationSelected = HttpResponse
+        .subscribe(
+            response => parentComponent.successResult(response),
+            error => parentComponent.errorResult(error),
+            () => parentComponent.completeResult(),
           );     
 
         var parentComponent = this;
@@ -48,15 +49,7 @@ export class WeatherContentComponent implements OnInit {
             function(response) { 
               var substrIP = response.split("IP:")
               var formatIP = substrIP[1].substr(1,substrIP[1].length);    
-              parentComponent.requestsService.getWeatherFromParam(formatIP).subscribe(
-                  function(response) { 
-                    parentComponent.locationSelected = response;
-                    parentComponent.hasLocation = true;
-                    console.log(parentComponent.locationSelected)
-                  },
-                  function(error) { console.log(error)},
-                  function() { console.log("the weather location is completed")}
-                );
+              parentComponent.getWeather(formatIP);
             },
             function(error) { console.log(error)},
             function() { console.log("the location is completed")}
@@ -72,5 +65,41 @@ export class WeatherContentComponent implements OnInit {
         }
         return null;
       }
+    }
+
+    nombreValidator(control: FormControl) : Validators {
+      const l = control.value.toString();
+  
+      var regex = /^[a-zA-Z\s]*$/;
+      if (l && !regex.test(l)){
+        return { invalidName: true };
+      }
+      return null;
+    }
+
+    getWeather(location){  
+      var parentComponent = this;      
+      parentComponent.loading = true;      
+      this.hasLocation = false;
+      this.requestsService.getWeatherFromParam(location).subscribe(
+        response => parentComponent.successResult(response),
+        error => parentComponent.errorResult(error),
+        () => parentComponent.completeResult(),
+      );
+      return false;
+    }
+
+    successResult(response){
+      this.locationSelected = response;
+      console.log(response)
+      this.hasLocation = true;
+      this.loading = false;
+    }
+    errorResult(error){
+      this.hasLocation = false;
+      this.loading = false;
+    }
+    completeResult(){
+      console.log("the weather location is completed")
     }
 }

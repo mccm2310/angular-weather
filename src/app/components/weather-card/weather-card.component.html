@@ -3,43 +3,88 @@
         <div class="ml-3">     
             <h2>{{ locationSelected.location.name }}</h2> 
             &nbsp;   
-            <small>{{ locationSelected.location.country }}</small>   
-        </div>   
-        <span class="ml-3">{{ locationSelected.current.last_updated }}</span>            
-        <p class="ml-3">{{ locationSelected.current.condition.text }}</p>
-        <div class="row mt-5">
-            <div class="col-md-7" style="padding-left: 150px">
-                <div class="card-img">            
-                    <img src="{{ locationSelected.current.condition.icon }}" alt="">
-                    <h5 *ngIf="scaleSelected=='C'">{{ locationSelected.current.temp_c }}</h5>   
-                    <h5 *ngIf="scaleSelected=='F'">{{ locationSelected.current.temp_f }}</h5>
-                    <div class="degree">
-                        <small (click)="changeScale('C')">°C</small>
-                        <small class="ml-1 mr-1">|</small>
-                        <small (click)="changeScale('F')">°F</small>
+            <small>{{ locationSelected.location.country }}</small> 
+            <div class="add-act" *ngIf="canAddLocation">
+                <button class="btn btn-add" (click)="addToQuickBar()">
+                    <i class="material-icons">offline_bolt</i>
+                </button>
+            </div>  
+        </div> 
+        <div *ngIf="!forecastInfoSelected">
+            <span class="ml-3">{{ formatDayString(locationSelected.location.localtime) }}</span>            
+            <p class="ml-3">{{ formatWeatherCondition(locationSelected.current.condition.code) }}</p>
+            <div class="row mt-5">
+                <div class="col-md-7" style="padding-left: 150px">
+                    <div class="card-img">            
+                        <img src="{{ locationSelected.current.condition.icon }}" alt="">
+                        <h5 *ngIf="scaleSelected=='C'">{{ locationSelected.current.temp_c }}</h5>   
+                        <h5 *ngIf="scaleSelected=='F'">{{ locationSelected.current.temp_f }}</h5>
+                        <div class="degree">
+                            <small (click)="changeScale('C')">°C</small>
+                            <small class="ml-1 mr-1">|</small>
+                            <small (click)="changeScale('F')">°F</small>
+                        </div>
+                    </div>
+                    <small style="padding-left:25px">Sensaci&oacute;n t&eacute;rmica: </small>
+                    <small *ngIf="scaleSelected=='C'">{{ locationSelected.current.feelslike_c }}°</small>
+                    <small *ngIf="scaleSelected=='F'">{{ locationSelected.current.feelslike_f }}°</small>
+                </div>
+                <div class="col-md-5">
+                    <div>
+                        <span>Precipitaciones (mm):  </span><span>{{ locationSelected.current.precip_mm }}</span>
+                    </div>
+                    <div>
+                        <span>Humedad:  </span><span>{{ locationSelected.current.humidity }}</span><span>%</span>
+                    </div>
+                    <div>
+                        <span>Viento:  </span><span>{{ locationSelected.current.wind_kph }}</span><span>km/h</span>
                     </div>
                 </div>
-                <small style="padding-left:25px">Sensaci&oacute;n t&eacute;rmica: </small>
-                <small *ngIf="scaleSelected=='C'">{{ locationSelected.current.feelslike_c }}°</small>
-                <small *ngIf="scaleSelected=='F'">{{ locationSelected.current.feelslike_f }}°</small>
             </div>
-            <div class="col-md-5">
-                <div>
-                    <span>Precipitaciones (mm):  </span><span>{{ locationSelected.current.precip_mm }}</span>
+        </div>
+        <div *ngIf="forecastInfoSelected" [(ngModel)]="forecastSelectedData" ngDefaultControl>
+            <span class="ml-3">{{ formatDayString(forecastSelectedData.date) }}</span>            
+            <p class="ml-3">{{ formatWeatherCondition(forecastSelectedData.day.condition.code) }}</p>
+            <div class="row mt-5 mb-2">
+                <div class="col-md-7" style="padding-left: 100px">
+                    <div class="card-img">            
+                        <img src="{{ forecastSelectedData.day.condition.icon }}" alt="">
+                        <h5 *ngIf="scaleSelected=='C'">{{ forecastSelectedData.day.maxtemp_c }}</h5>   
+                        <h5 *ngIf="scaleSelected=='F'">{{ forecastSelectedData.day.maxtemp_f }}</h5>                        
+                        <h5 class="ml-1 mr-1">/</h5>
+                        <h5 *ngIf="scaleSelected=='C'">{{ forecastSelectedData.day.mintemp_c }}</h5>   
+                        <h5 *ngIf="scaleSelected=='F'">{{ forecastSelectedData.day.mintemp_f }}</h5>
+                        <div class="degree">
+                            <small (click)="changeScale('C')">°C</small>
+                            <small class="ml-1 mr-1">|</small>
+                            <small (click)="changeScale('F')">°F</small>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <span>Humedad:  </span><span>{{ locationSelected.current.humidity }}</span>
-                </div>
-                <div>
-                    <span>Viento:  </span><span>{{ locationSelected.current.wind_kph }}</span><span>km/h</span>
+                <div class="col-md-5">
+                    <div>
+                        <span>Precipitaciones (mm):  </span><span>{{ forecastSelectedData.day.totalprecip_mm }}</span>
+                    </div>
+                    <div>
+                        <span>Humedad:  </span><span>{{ forecastSelectedData.day.avghumidity }}</span><span>%</span>
+                    </div>
+                    <div>
+                        <span>Viento:  </span><span>{{ forecastSelectedData.day.maxwind_kph }}</span><span>km/h</span>
+                    </div>
                 </div>
             </div>
-        </div>        
+        </div>   
         <div class="card-desc mt-5">              
                 <app-forecast-card
-                *ngFor="let w of locationSelected.forecast.forecastday" 
-                [forecastday]="w">
+                *ngFor="let w of locationSelected.forecast.forecastday, let i=index" 
+                [forecastday]="w"
+                [ngClass]="{'forecast-card-selected': forecastdaySelect == i }"
+                (click)="forecastSelect(i)">
                 </app-forecast-card>
+        </div>
+        <div class="mt-3" style="text-align:center">
+            <small>&Uacute;ltima actualizaci&oacute;n: </small>
+            <small>{{ formatLastUpdated(locationSelected.current.last_updated) }}</small>
         </div>
     </div>
 </div>

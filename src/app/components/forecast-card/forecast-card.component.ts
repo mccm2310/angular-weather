@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormatData } from '../../models/data-map.model';
 
 @Component({
   selector: 'app-forecast-card',
@@ -10,23 +11,14 @@ export class ForecastCardComponent implements OnInit {
   @Input() forecastday;  
   daysString: any;
 
-  constructor() { }
+  constructor(private formatData: FormatData) { }
 
   ngOnInit() {
-    this.daysString = new Map(); 
-    this.daysString.set(0, 'lun.');
-    this.daysString.set(1, 'mar.');
-    this.daysString.set(2, 'mie.');
-    this.daysString.set(3, 'jue.');
-    this.daysString.set(4, 'vie.');
-    this.daysString.set(5, 'sab.');
-    this.daysString.set(6, 'dom.');
   }
  
-
-  getDayString(data) {
+  getDayShortString(data) {
     var date = new Date(data);   
-    return this.daysString.get(date.getDay());
+    return this.formatData.DaysShortName(date.getDay());
   }
 
 }

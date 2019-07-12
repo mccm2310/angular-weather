@@ -2,10 +2,11 @@
 <div class="page-header">
 	<div class="container">
 		<div class="navLinks">
-		<a (click)="getWeather('Mendoza')">Mendoza - Argentina</a> /
-		<a (click)="getWeather('Buenos Aires')">Buenos Aires - Argentina</a> /
-		<a (click)="getWeather('Bogota')">Bog&oacute;ta - Colombia</a> /
-		<a (click)="getWeather('Lima')">Lima - Per&uacute;</a>
+			<a class="ml-1" *ngFor="let q of quickAccess, let i=index" 
+				(click)="getWeather(q.location)">						
+				<span class="mr-2" *ngIf="i != 0">/</span>
+				<span [innerHtml]="q.locationToShow"></span>
+			</a>
 		</div>
 	</div>
 </div>
@@ -37,7 +38,9 @@
 		</div>
 		<app-weather-card
 			*ngIf="hasLocation && !loading"
-			[locationSelected]=locationSelected >
+			[locationSelected]="locationSelected"
+			[canAddLocation] = "canAddLocation"
+			(addQuickAccess)="addQuickAccess(locationSelected)" >
 		</app-weather-card>
 	</div>
 </div>

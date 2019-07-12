@@ -15,6 +15,10 @@ export class WeatherContentComponent implements OnInit {
   locationSelected: {};
   hasLocation: boolean;
   loading: boolean = true;
+  quickAccess: any;
+  canAddLocation: boolean = false;
+  existLocation: boolean;
+  setIpLocation: boolean = true;
   
     constructor(fb: FormBuilder, private requestsService : RequestsService) { 
       this.fg = fb.group({
@@ -26,8 +30,14 @@ export class WeatherContentComponent implements OnInit {
     }
   
     ngOnInit() {
+      this.quickAccess = [
+        {location: 'Mendoza', locationToShow: 'Mendoza - Argentina'},
+        {location: 'Buenos Aires', locationToShow: 'Buenos Aires - Argentina'},
+        {location: 'Bogota', locationToShow: 'Bogotá - Colombia'},
+        {location: 'Lima', locationToShow: 'Lima - Perú'},
+      ]
+
       const elemNombre = <HTMLInputElement>document.getElementById('nombre');
-      //var searchResults2= [];
       
       fromEvent(elemNombre, 'input')
       .pipe(
@@ -49,10 +59,12 @@ export class WeatherContentComponent implements OnInit {
             function(response) { 
               var substrIP = response.split("IP:")
               var formatIP = substrIP[1].substr(1,substrIP[1].length);    
-              parentComponent.getWeather(formatIP);
+              parentComponent.getWeather(formatIP);   
             },
             function(error) { console.log(error)},
-            function() { console.log("the location is completed")}
+            function() { 
+              console.log("the location is completed") ;
+            }
         );
     }
   
@@ -77,10 +89,15 @@ export class WeatherContentComponent implements OnInit {
       return null;
     }
 
+    addQuickAccess(locationSelected){
+      this.quickAccess.push({location: locationSelected.location.name, locationToShow: locationSelected.location.name +' - '+ locationSelected.location.country});
+    }
+
     getWeather(location){  
       var parentComponent = this;      
       parentComponent.loading = true;      
-      this.hasLocation = false;
+      parentComponent.hasLocation = false;               
+      parentComponent.canAddLocation = false;
       this.requestsService.getWeatherFromParam(location).subscribe(
         response => parentComponent.successResult(response),
         error => parentComponent.errorResult(error),
@@ -89,17 +106,33 @@ export class WeatherContentComponent implements OnInit {
       return false;
     }
 
+    evalLocation(locationSelected) {
+      var parentComponent = this; 
+      parentComponent.existLocation = false;
+      
+      parentComponent.quickAccess.forEach(x => {
+        if(x.location == locationSelected.location.name){
+          parentComponent.existLocation = true;
+        }
+      });    
+
+      if(!parentComponent.existLocation && !this.setIpLocation){            
+        parentComponent.canAddLocation = true;
+      }
+    }
+
     successResult(response){
       this.locationSelected = response;
-      console.log(response)
       this.hasLocation = true;
       this.loading = false;
+      this.evalLocation(this.locationSelected);
     }
     errorResult(error){
       this.hasLocation = false;
       this.loading = false;
     }
-    completeResult(){
+    completeResult(){      
+      this.setIpLocation = false;
       console.log("the weather location is completed")
     }
 }

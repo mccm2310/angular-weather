@@ -1,27 +1,19 @@
 # Angular Weather
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
+## Review the Weather
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Barra de accesos rápidos con las cuatro (04) ciudades con sedes de la empresa.
+- Buscador on validaciones, ejecuta la llamada al api a medida que el usuario va escribiendo.
+- Botón de búsqueda.
+- Sección con el clima de la ubicación seleccionada. En un principio se muestra el clima de la ubicación según la IP del usuario.
+- Si la ubicación seleccionada es diferente de las ciudades en la barra de accesos rápidos, se muestra un botón para añadirla.
+- Se puede elegir visualizar las temperaturas en Grados Celsius o Grados Farenheit.
+- Se puede visualizar el detalle del pronóstico para los siguientes días.
+- Barra inferior con la hora actulizandose segundo a segundo.
+- Loader para mejorar la experiencia del usuario.
+- Manejo de errores.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## known issue
+El api retorna 400 si no encuentra una ubicación, aunque esto es manejado a nivel visual, el switchMap del input se crashea y no ejecuta lascsiguientes llamadas si el usuario continua escribiendo. En este caso es necesario presionar Enter o el botón de búsqueda.

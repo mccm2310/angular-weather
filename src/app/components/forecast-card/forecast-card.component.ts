@@ -9,6 +9,7 @@ import { FormatData } from '../../models/data-map.model';
 
 export class ForecastCardComponent implements OnInit {
   @Input('forecastday') forecastday: any;  
+  @Input('scaleSelected') scaleSelected: string;
   daysString: any;
 
   constructor(private formatData: FormatData) { }

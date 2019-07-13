@@ -14,6 +14,26 @@ $red: #dc3545b5;
     display: $display;
 }
 
+@media (min-width: 998px) {
+    // .condition-details-section {
+
+    // }
+    .condition-section-forecast {
+        padding-left: 100px;
+    }
+    .condition-section-day {
+        padding-left: 100px;
+    }
+}
+
+@media (max-width: 999px) {
+    .condition-details-forecast,
+    .condition-details-day {
+        padding-left: 25px;
+        margin-top: 15px;
+    }
+}
+
 section{
 	padding: 100px 0;
 }

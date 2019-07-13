@@ -14,7 +14,7 @@
             <span class="ml-3">{{ formatDayString(locationSelected.location.localtime) }}</span>            
             <p class="ml-3">{{ formatWeatherCondition(locationSelected.current.condition.code) }}</p>
             <div class="row mt-5">
-                <div class="col-md-7" style="padding-left: 150px">
+                <div class="col-md-7 col-sm-12 condition-section-day">
                     <div class="card-img">            
                         <img src="{{ locationSelected.current.condition.icon }}" alt="">
                         <h5 *ngIf="scaleSelected=='C'">{{ locationSelected.current.temp_c }}</h5>   
@@ -29,7 +29,7 @@
                     <small *ngIf="scaleSelected=='C'">{{ locationSelected.current.feelslike_c }}°</small>
                     <small *ngIf="scaleSelected=='F'">{{ locationSelected.current.feelslike_f }}°</small>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-sm-12 condition-details-day">
                     <div>
                         <span>Precipitaciones (mm):  </span><span>{{ locationSelected.current.precip_mm }}</span>
                     </div>
@@ -46,7 +46,7 @@
             <span class="ml-3">{{ formatDayString(forecastSelectedData.date) }}</span>            
             <p class="ml-3">{{ formatWeatherCondition(forecastSelectedData.day.condition.code) }}</p>
             <div class="row mt-5 mb-2">
-                <div class="col-md-7" style="padding-left: 100px">
+                <div class="col-md-7 col-sm-12 condition-section-forecast">
                     <div class="card-img">            
                         <img src="{{ forecastSelectedData.day.condition.icon }}" alt="">
                         <h5 *ngIf="scaleSelected=='C'">{{ forecastSelectedData.day.maxtemp_c }}</h5>   
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-sm-12 condition-details-forecast">
                     <div>
                         <span>Precipitaciones (mm):  </span><span>{{ forecastSelectedData.day.totalprecip_mm }}</span>
                     </div>
@@ -79,6 +79,7 @@
                 *ngFor="let w of locationSelected.forecast.forecastday, let i=index" 
                 [forecastday]="w"
                 [ngClass]="{'forecast-card-selected': forecastdaySelect == i }"
+                [scaleSelected]= "scaleSelected"
                 (click)="forecastSelect(i)">
                 </app-forecast-card>
         </div>

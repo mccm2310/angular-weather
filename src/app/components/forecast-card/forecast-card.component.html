@@ -5,7 +5,9 @@
         <img src="{{ forecastday.day.condition.icon }}" alt="">
     </div>
     <div>              
-        <span [innerHtml]=" forecastday.day.maxtemp_c"></span>
-        <small class="ml-1" [innerHtml]=" forecastday.day.mintemp_c"></small>
+        <span *ngIf="scaleSelected=='C'" [innerHtml]=" forecastday.day.maxtemp_c"></span>
+        <span *ngIf="scaleSelected=='F'" [innerHtml]=" forecastday.day.maxtemp_f"></span>
+        <small class="ml-1" *ngIf="scaleSelected=='C'" [innerHtml]=" forecastday.day.mintemp_c"></small>
+        <small class="ml-1" *ngIf="scaleSelected=='F'" [innerHtml]=" forecastday.day.mintemp_f"></small>
     </div>
 </div>

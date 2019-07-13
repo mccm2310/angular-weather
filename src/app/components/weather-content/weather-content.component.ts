@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RequestsService } from '../../services/requests.service';
 import { fromEvent } from 'rxjs';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
 @Component({
   selector: 'app-weather-content',
   templateUrl: './weather-content.component.html',

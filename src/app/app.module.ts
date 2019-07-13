@@ -9,6 +9,7 @@ import { WeatherCardComponent } from './components/weather-card/weather-card.com
 import { WeatherContentComponent } from './components/weather-content/weather-content.component';
 import { ForecastCardComponent } from './components/forecast-card/forecast-card.component';
 import { FormatData } from './models/data-map.model';
+import { RequestsService } from './services/requests.service';
 
 @NgModule({
   declarations: [
@@ -19,13 +20,14 @@ import { FormatData } from './models/data-map.model';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule,
-    StoreDevtoolsModule.instrument()
+    StoreDevtoolsModule.instrument()    
   ],
   providers: [
-    FormatData
+    FormatData,
+    RequestsService
   ],
   bootstrap: [AppComponent]
 })

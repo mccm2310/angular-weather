@@ -9,8 +9,8 @@ import { FormatData } from 'src/app/models/data-map.model';
 })
 
 export class WeatherCardComponent implements OnInit {
-  @Input() locationSelected;
-  @Input() canAddLocation;
+  @Input('locationSelected') locationSelected;
+  @Input('canAddLocation') canAddLocation: boolean;
   @Output() addQuickAccess: EventEmitter<any>;
   scaleSelected: string = 'C';
   forecastSelected: boolean = false;
@@ -24,7 +24,8 @@ export class WeatherCardComponent implements OnInit {
     this.addQuickAccess = new EventEmitter();
    }
 
-  ngOnInit() { }
+  ngOnInit() { 
+  }
 
   changeScale(scale){
     this.scaleSelected = scale;

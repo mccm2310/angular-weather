@@ -1,5 +1,5 @@
     
-<div class="forecastday-card">       
+<div class="forecastday-card" *ngIf="forecastday">       
     <small>{{ getDayShortString(forecastday.date) }}</small>   
     <div>            
         <img src="{{ forecastday.day.condition.icon }}" alt="">

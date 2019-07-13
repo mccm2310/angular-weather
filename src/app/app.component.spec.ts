@@ -1,6 +1,9 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { WeatherContentComponent } from './components/weather-content/weather-content.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NO_ERRORS_SCHEMA } from '../../node_modules/@angular/core';
+import { HttpClientModule } from '../../node_modules/@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -8,6 +11,10 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent, WeatherContentComponent
       ],
+      imports: [ FormsModule, HttpClientModule, ReactiveFormsModule ],
+      schemas: [
+          NO_ERRORS_SCHEMA
+      ]
     }).compileComponents();
   }));
 
@@ -15,12 +22,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'Review the Weather'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Review the Weather');
   });
 
   it('should render title in a h1 tag', () => {

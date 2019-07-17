@@ -3,7 +3,7 @@
 ## Review the Weather
 
 
-- Barra de accesos rápidos con las cuatro (04) ciudades con sedes de la empresa.
+- Barra de accesos rápidos con cuatro (04) ciudades.
 - Buscador on validaciones, ejecuta la llamada al api a medida que el usuario va escribiendo.
 - Botón de búsqueda.
 - Sección con el clima de la ubicación seleccionada. En un principio se muestra el clima de la ubicación según la IP del usuario.
